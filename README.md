@@ -18,14 +18,10 @@ Use
 
 to install mathjax-node and its dependencies.
 
-These API's can produce PNG images, but that requires the
-[Batik](http://xmlgraphics.apache.org/batik/download.html) library.  It 
-should be installed in the `batik` directory.  See the README file in that 
-directory for more details.
 
 # Getting started
 
-mathjax-node provides two libraries, `lib/mj-single.js` and `lib/mj-page.js`. Below are two  very minimal examples -- be sure to check out the examples in `./bin/` for more advanced configurations.
+mathjax-node provides one library, `lib/mj-single.js`. Below are two  very minimal examples -- be sure to check out the examples in `./bin/` for more advanced configurations.
 
 * `lib/mj-single.js` is optimized for processing single equations.
 
@@ -48,30 +44,5 @@ mjAPI.typeset({
   mml:true, //  svg:true,
 }, function (data) {
   if (!data.errors) {console.log(data.mml)}
-});
-```
-
-
-* `lib/mj-page.js` is optimized for handling full HTML pages. 
-
-
-```javascript
-var mjAPI = require("./lib/mj-page.js");
-var jsdom = require("jsdom").jsdom;
-
-var document = jsdom("<!DOCTYPE html><html lang='en'><head><title>Test</title></head><body><h1>Let's test mj-page</h1> <p> \\[f: X \\to Y\\], where \\( X = 2^{\mathbb{N}}\\) </p></body></html>");
-
-mjAPI.start();
-
-mjAPI.typeset({
-  html: document.body.innerHTML,
-  renderer: "NativeMML",
-  inputs: ["TeX"],
-  xmlns: "mml"
-}, function(result) {
-  "use strict";
-  document.body.innerHTML = result.html;
-  var HTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^(\n|\s)*/, "");
-  console.log(HTML);
 });
 ```
